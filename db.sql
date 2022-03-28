@@ -9,7 +9,7 @@ CREATE TABLE Client (
   age INT NOT NULL,
   prefession VARCHAR(50) NOT NULL,
   ref VARCHAR(255) NOT NULL UNIQUE,
-  id_admin INT REFERENCES id(Admin)
+  id_admin INT REFERENCES Admin(id)
 );
 
 
@@ -25,6 +25,6 @@ CREATE TABLE RDVs (
   sujet_rdv VARCHAR(255) NOT NULL,
   date_rdv DATE NOT NULL,
   creneau_rdv INT NOT NULL CHECK(creneau_rdv > 0 && creneau_rdv <= 5),
-  id_client INT REFERENCES id(Client),
-  id_admin INT REFERENCES id(Admin)
+  id_client INT REFERENCES Client(id),
+  id_admin INT REFERENCES Admin(id)
 );
