@@ -8,7 +8,7 @@ CREATE TABLE Client (
   prefession VARCHAR(50) NOT NULL,
   ref VARCHAR(255) NOT NULL UNIQUE,
   id_admin INT REFERENCES id(Admin)
-)
+);
 
 
 CREATE TABLE Admin (
@@ -16,7 +16,7 @@ CREATE TABLE Admin (
   nom VARCHAR(50) NOT NULL,
   prenom VARCHAR(50) NOT NULL,
   ref VARCHAR(255) NOT NULL UNIQUE
-)
+);
 
 CREATE TABLE RDVs (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -25,4 +25,4 @@ CREATE TABLE RDVs (
   creneau_rdv INT NOT NULL CHECK(creneau_rdv > 0 && creneau_rdv <= 5),
   id_client INT REFERENCES id(Client),
   id_admin INT REFERENCES id(Admin)
-)
+);
