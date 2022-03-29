@@ -3,6 +3,7 @@
     public $count = 0;
     public function __construct(){
       $this->userModel = $this->model('User');
+      $this->adminModel = $this->model('Admin');
       header('Access-Control-Allow-Origin: *');
       header('Content-Type: application/json'); 
     }
@@ -21,7 +22,7 @@
 
   public function AddUser()
   {
-    $this->count + 1;
+    $this->count = $this->count + 1;
     header('Acces-Control-Allow-Methods: POST');
     header('Acces-Control-Allow-Headers: Acces-Control-Allow-Methods,Content-Type,Acces-Control-Allow-Headers,Authorization,X-Requested-With');
     //Create the reference
@@ -145,6 +146,22 @@ public function delete($id){
       echo json_encode($arr);
   }
 }
-
-
+public function login($ref){
+  if($this->userModel->login($ref)) {
+    $arr = array(
+        'message' => 'User Exists'
+    );
+    echo json_encode($arr);
+}else if($this->adminModel->login($ref)){
+  $arr = array(
+    'message' => 'Admin Exists'
+);
+echo json_encode($arr);
+}else {
+    $arr = array(
+        'message' => 'Something went wrong'
+    );
+    echo json_encode($arr);
+}
+}
   }
