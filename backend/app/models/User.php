@@ -8,7 +8,7 @@
 
     // Regsiter user
     public function register($data){
-      $this->db->query('INSERT INTO client (nom,prenom,age,prefession,ref) VALUES(:nom,:prenom, :age, :prefession,:ref)');
+      $this->db->query('INSERT INTO client (nom,prenom,age,prefession,ref) VALUES(:nom,:prenom,:age,:prefession,:ref)');
       // Bind values
       $this->db->bind(':nom', $data['nom']);
       $this->db->bind(':prenom', $data['prenom']);

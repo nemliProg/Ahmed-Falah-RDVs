@@ -1,10 +1,10 @@
 <?php
-  class usersApi extends Controller {
+  class usersapi extends Controller {
+    public $count = 0;
     public function __construct(){
       $this->userModel = $this->model('User');
       header('Access-Control-Allow-Origin: *');
-      header('Content-Type: application/json');
-      
+      header('Content-Type: application/json'); 
     }
     
     public function AllUsers()
@@ -15,20 +15,25 @@
 
   public function User($id)
   {
-    $user = $this->postModel->getUserById($id);
+    $user = $this->userModel->getUserById($id);
     echo json_encode($user);
   }
 
   public function AddUser()
   {
+    $this->count + 1;
     header('Acces-Control-Allow-Methods: POST');
     header('Acces-Control-Allow-Headers: Acces-Control-Allow-Methods,Content-Type,Acces-Control-Allow-Headers,Authorization,X-Requested-With');
+    //Create the reference
       $postedData = json_decode(file_get_contents("php://input"));
+      $ref = substr($postedData->nom, -1) . $this->count . substr($postedData->prefession, -1) . "Ja" . substr($postedData->prenom,-1,-3) . "Yo" . $postedData->age-3;
+      
       $data = [
         'nom' => $postedData->nom,
         'prenom' => $postedData->prenom,
         'age' => $postedData->age,
         'prefession' => $postedData->prefession,
+        'ref' => $ref,
         'nom_err' => '',
         'prenom_err' => '',
         'age_err' => '',
@@ -140,5 +145,6 @@ public function delete($id){
       echo json_encode($arr);
   }
 }
+
 
   }
