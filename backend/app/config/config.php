@@ -8,4 +8,4 @@
   // App Root
   define('APPROOT', dirname(dirname(__FILE__)));
   // URL Root
-  define('URLROOT', 'http://localhost/Ahmed-Falah-RDVs/backend');
+  define('URLROOT', 'http://localhost/Ahmed-Falah-RDVs');
