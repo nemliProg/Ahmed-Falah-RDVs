@@ -31,3 +31,7 @@ CREATE TABLE RDVs (
   CONSTRAINT fk_rdv_client FOREIGN KEY (idClient) REFERENCES Client(id),
   CONSTRAINT fk_rdv_admin FOREIGN KEY (idAdmin) REFERENCES Admin(id)
 );
+INSERT INTO Client(nom, prenom, age,prefession,ref,idAdmin) Values ("Doufare","Jawad",21,"Programmer","d1rJaYo18",1);
+INSERT INTO Client(nom, prenom, age,prefession,ref,idAdmin) Values ("Nemli","Youness",21,"Programmer","r1rJaYo23",1);
+INSERT INTO admin(nom,prenom,ref) VALUES ("Ahmed","Flah","cheblaarbi");
+INSERT INTO rdvs(sujet_rdv,creneau_rdv,idClient,idAdmin) VALUES ('Construire','something',2,2,1)
