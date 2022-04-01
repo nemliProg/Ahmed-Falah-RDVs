@@ -71,7 +71,6 @@ export default {
        daySquare.style.backgroundColor = "#DDD"; 
       }
     }else if(i<=pastDays){
-      
        daySquare.classList.add("emptyDay");
     }
     daySquares.push(daySquare);

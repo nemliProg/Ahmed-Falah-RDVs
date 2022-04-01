@@ -44,6 +44,17 @@
       $row = $this->db->single();
       return $row;
     }
+     public function getRdvByDate($date){
+          $this->db->query('SELECT r.* , c.nom , c.prenom
+                        from rdvs r , client c 
+                        WHERE r.idClient = c.id
+                        and date_rdv= :date_rdv
+                        LIMIT 5');
+          // Bind value
+          $this->db->bind(':date_rdv', $date);
+          $rows = $this->db->resultSet();
+          return $rows;
+      }
  
 
   

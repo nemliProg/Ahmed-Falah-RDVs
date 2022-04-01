@@ -12,6 +12,12 @@
     $rdvs = $this->rdvModel->getRdvs();
     echo json_encode($rdvs);
   }
+  public function getRdvByDate($dateStr){
+      $date = date($dateStr);
+      echo  $date;
+      $rdvs = $this->rdvModel->getRdvByDate($date);
+      echo json_encode($rdvs);
+  }
 
   public function Rdv($id)
   {
@@ -71,7 +77,6 @@
     header('Acces-Control-Allow-Headers: Acces-Control-Allow-Methods,Content-Type,Acces-Control-Allow-Headers,Authorization,X-Requested-With');
     //Create the reference
       $postedData = json_decode(file_get_contents("php://input"));
-      
       $data = [
         'sujet_rdv' => $postedData->sujet_rdv,
         'date_rdv' => $postedData->date_rdv,
