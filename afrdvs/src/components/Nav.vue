@@ -5,6 +5,7 @@
     </div>
     <ul>
       <li><router-link to="/dashboard">Dashboard</router-link></li>
+      <li><router-link to="/rdvs">rdvs</router-link></li>
       <li><router-link to="/about">About</router-link></li>
       <li><router-link to="/login">Login</router-link></li>
       <li><router-link to="/login" @click="logout">Logout</router-link></li>
