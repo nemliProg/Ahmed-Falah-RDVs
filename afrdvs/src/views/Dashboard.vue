@@ -1,5 +1,7 @@
 <template>
-
+  <h3 v-if = "el">
+  {{ el[0].id }}
+  </h3>
   <div class="container">
     <div class="agendaNav">
     <button @click="decrementTheOneDay()"> &#60;&#60; </button>
@@ -27,7 +29,8 @@ export default {
   name : "Dashboard",
   data(){
     return {
-       oneMonth : 0
+       oneMonth : 0,
+       el : undefined
     }
   },
   components : {
@@ -51,8 +54,7 @@ export default {
      month : 'long',
      day : 'numeric',
   })
-  const dateStringArray = dateString.split(', ');
-  
+  const dateStringArray = dateString.split(', ');  
   this.$refs.calendar.innerText = "";
   this.$refs.month.innerText = dateStringArray[1].split(' ')[0] + " "+ dateStringArray[2];
   let daySquares = [];
@@ -70,11 +72,17 @@ export default {
       }else if(firstDayOfTheMonth.getMonth() < month && firstDayOfTheMonth.getFullYear() <= year || firstDayOfTheMonth.getFullYear() < year ){
        daySquare.style.backgroundColor = "#DDD"; 
       }
+      
     }else if(i<=pastDays){
        daySquare.classList.add("emptyDay");
     }
-    daySquares.push(daySquare);
-   
+    daySquare.setAttribute('data-date',firstDayOfTheMonth.getFullYear()+"-"+(firstDayOfTheMonth.getMonth()+1)+"-"+(i-pastDays));
+    daySquare.addEventListener('click', function(){
+     let url = "http://localhost/Ahmed-Falah-RDVs/rdvsapi/getRdvByDate/";
+     const response = fetch(url + daySquare.getAttribute('data-date'));
+     response.then(res => res.json()).then(rdvs => console.log(rdvs));
+  });
+    daySquares.push(daySquare);   
     this.$refs.calendar.append(...daySquares);
   }
   },
@@ -88,6 +96,15 @@ export default {
     this.oneMonth = this.oneMonth - 1;
     this.displayCalenderDays();
   },
+  //  bringRdvs(date){
+  //    let url = "http://localhost/Ahmed-Falah-RDVs/rdvsapi/getRdvByDate/";
+  //    const response = fetch(url + date);
+  //    response.then(res => res.json()).then(rdvs => console.log(rdvs));
+  // },
+  debugging(data){
+    console.log(data);
+  }
+
   },
   mounted(){
       this.displayCalenderDays();
