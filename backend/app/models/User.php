@@ -8,13 +8,14 @@
 
     // Regsiter user
     public function register($data){
-      $this->db->query('INSERT INTO client (nom,prenom,age,prefession,ref) VALUES(:nom,:prenom,:age,:prefession,:ref)');
+      $this->db->query('INSERT INTO client (nom,prenom,age,prefession,ref,idAdmin) VALUES(:nom,:prenom,:age,:prefession,:ref,:idAdmin)');
       // Bind values
       $this->db->bind(':nom', $data['nom']);
       $this->db->bind(':prenom', $data['prenom']);
       $this->db->bind(':age', $data['age']);
       $this->db->bind(':prefession', $data['prefession']);
       $this->db->bind(':ref', $data['ref']);
+      $this->db->bind(':idAdmin', $data['idAdmin']);
       // Execute
       if($this->db->execute()){
         return true;
@@ -24,11 +25,12 @@
     }
     // Login User
     public function login($ref){
-      $this->db->query('SELECT * FROM client WHERE ref = :ref');
-      $this->db->bind(':ref', $ref);
-      $row = $this->db->single();      
-      if($this->db->rowCount() > 0){
-        return true;
+      $this->db->query('SELECT * FROM client WHERE id = :id');
+      $id = intval(substr($ref,27));
+      $this->db->bind(':id',$id);
+      $row = $this->db->single();
+      if(password_verify($ref,$row->ref)){
+        return $row;
       } else {
         return false;
       }
@@ -43,6 +45,12 @@
       $row = $this->db->single();
 
       return $row;
+    }
+    public function getLastUserId(){
+      $this->db->query('SELECT id FROM client order by id desc limit 1');
+      // Bind value
+      $row = $this->db->single();
+      return $row->id;
     }
  
   //Update client 

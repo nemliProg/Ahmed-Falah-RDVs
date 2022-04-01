@@ -1,7 +1,7 @@
 <template>
   <div class="formContainer">
     <h1>Login</h1>
-    <form>
+    <form @submit.prevent="login">
       <input type="text" placeholder="Write Your Reference" v-model="reference">
       <button>Submit</button>
     </form>
@@ -17,13 +17,28 @@ export default {
     }
   },
   methods : {
-    
+    login() {
+      if(this.reference != ""){
+        fetch("http://localhost/Ahmed-Falah-RDVs/usersApi/login",{
+          method: 'POST',
+          body: JSON.stringify({
+              ref : this.reference
+          })
+        })
+        .then( response => response.json() )
+        .then( json => {
+          localStorage.setItem("ref",json.ref);
+          localStorage.setItem("id",json.id);
+          this.$router.push({name: 'dashboard'})
+        });
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss">
-  .formContainer{
+  .formContainer {
     font-family: $tenor;
     display: flex;
     gap: 30px;

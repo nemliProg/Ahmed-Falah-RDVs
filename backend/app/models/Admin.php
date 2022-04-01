@@ -11,7 +11,7 @@ class Admin {
         $this->db->bind(':ref', $ref);
         $row = $this->db->single();      
         if($this->db->rowCount() > 0){
-          return true;
+          return $row;
         } else {
           return false;
         }
