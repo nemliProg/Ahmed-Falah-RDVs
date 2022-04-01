@@ -14,7 +14,6 @@
   }
   public function getRdvByDate($dateStr){
       $date = date($dateStr);
-      echo  $date;
       $rdvs = $this->rdvModel->getRdvByDate($date);
       echo json_encode($rdvs);
   }

@@ -115,6 +115,79 @@ export default {
 </script>
 
 <style lang="scss">
-
+.container{
+  width: 434px;
+  margin: 20px 10px 0px 30px;
+  font-family: $poppins;
+  font-weight: 200;
+}
+button{
+  background-color: $primary-color;
+  color: white;
+  border: none;
+  padding: 5px;
+  border-radius: 3px;
+  
+}
+.agendaNav{
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  
+}
+.agendaNav > h4{
+  font-family: $tenor !important;
+ font-weight: 600 !important;
+}
+#weekdays{
+  width: 100%;
+  display: flex;
+  color: $primary-color;
+  margin-top: 20px;
+  gap: 2px;
+  font-weight: 500 !important;
+  background-color: $secondary-color;
+  border-radius: 5px;
+  margin-bottom: 3px;
+  color: white;
+}
+#weekdays div {
+  width: 60px;
+  text-align: center;
+  border-radius:5px;
+}
+#calendar{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+.day{
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  text-align: center;
+  border-radius:5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3em;
+  border:.5px solid $secondary-color;
+}
+.day:hover{
+  background-color: $primary-color;
+  color: white;
+}
+.emptyDay{
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  border-radius:5px;
+  cursor: not-allowed !important;
+}
+h4{
+text-align: center;
+}
 
 </style>
