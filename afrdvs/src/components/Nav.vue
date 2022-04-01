@@ -6,7 +6,8 @@
     <ul>
       <li><router-link to="/dashboard">Dashboard</router-link></li>
       <li><router-link to="/about">About</router-link></li>
-      <li><router-link to="/about">Contact</router-link></li>
+      <li><router-link to="/login">Login</router-link></li>
+      <li><router-link to="/login" @click="logout">Logout</router-link></li>
     </ul>
   </nav>
 </template>
@@ -14,6 +15,11 @@
 <script>
 export default {
   name: "Nav",
+  methods : {
+    logout(){
+      localStorage.clear();
+    }
+  }
 };
 </script>
 
