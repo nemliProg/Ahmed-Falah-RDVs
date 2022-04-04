@@ -1,14 +1,12 @@
 <template>
-  <h3 v-if = "el">
-  {{ el[0].id }}
-  </h3>
+  <div class="bigContainer">
+  <h3 ref="rdvs"></h3>
   <div class="container">
     <div class="agendaNav">
     <button @click="decrementTheOneDay()"> &#60;&#60; </button>
     <h4 ref="month"></h4>
     <button @click="incrementTheOneDay()"> &#62;&#62; </button>
     </div>
-   
     <div id="weekdays">
      <div>Su</div>
      <div>Mo</div>
@@ -20,6 +18,13 @@
     </div>
     <div ref="calendar" id="calendar">         
     </div>
+    
+     
+  
+  </div>
+  <div>
+    <Child :name ="rdvs" :plus="plus"/>
+  </div>
   </div>
   
 </template>
@@ -27,16 +32,19 @@
 
 
 <script>
+import { h } from 'vue';
+import Child from './Child.vue';
 export default {
-  name : "Dashboard",
+  name : "rdvs",
   data(){
     return {
        oneMonth : 0,
-       el : undefined
+       rdvs : [],
+       plus : false
     }
   },
   components : {
-
+      Child
   },
   methods : {
      displayCalenderDays(){
@@ -70,19 +78,26 @@ export default {
            daySquare.style.color = "#247BA0";
            daySquare.style.backgroundColor = "#DDD";  
       }else if((i - pastDays) < day && firstDayOfTheMonth.getMonth() == month && firstDayOfTheMonth.getFullYear() == year){
-       daySquare.style.backgroundColor = "#DDD";    
+       daySquare.style.backgroundColor = "#DDD";   
+       daySquare.classList.add("pastDays"); 
       }else if(firstDayOfTheMonth.getMonth() < month && firstDayOfTheMonth.getFullYear() <= year || firstDayOfTheMonth.getFullYear() < year ){
        daySquare.style.backgroundColor = "#DDD"; 
+       daySquare.classList.add("pastDays"); 
       }
-      
     }else if(i<=pastDays){
        daySquare.classList.add("emptyDay");
     }
     daySquare.setAttribute('data-date',firstDayOfTheMonth.getFullYear()+"-"+(firstDayOfTheMonth.getMonth()+1)+"-"+(i-pastDays));
-    daySquare.addEventListener('click', function(){
+    daySquare.addEventListener('click', ()=> {
      let url = "http://localhost/Ahmed-Falah-RDVs/rdvsapi/getRdvByDate/";
      const response = fetch(url + daySquare.getAttribute('data-date'));
-     response.then(res => res.json()).then(rdvs => console.log(rdvs));
+     response.then(res => res.json()).then(data => data.forEach(element => {
+       this.rdvs.push(element)
+       
+     })
+    
+     );
+    this.plus = true 
   });
     daySquares.push(daySquare);   
     this.$refs.calendar.append(...daySquares);
@@ -97,15 +112,13 @@ export default {
     console.log(this.oneMonth);
     this.oneMonth = this.oneMonth - 1;
     this.displayCalenderDays();
-  },
+  }
   //  bringRdvs(date){
   //    let url = "http://localhost/Ahmed-Falah-RDVs/rdvsapi/getRdvByDate/";
   //    const response = fetch(url + date);
   //    response.then(res => res.json()).then(rdvs => console.log(rdvs));
   // },
-  debugging(data){
-    console.log(data);
-  }
+  
 
   },
   mounted(){
@@ -115,6 +128,10 @@ export default {
 </script>
 
 <style lang="scss">
+.bigContainer{
+  display: flex;
+  flex-direction: row;
+}
 .container{
   width: 434px;
   margin: 20px 10px 0px 30px;
@@ -184,6 +201,9 @@ button{
   height: 60px;
   text-align: center;
   border-radius:5px;
+  cursor: not-allowed !important;
+}
+.pastDays{
   cursor: not-allowed !important;
 }
 h4{

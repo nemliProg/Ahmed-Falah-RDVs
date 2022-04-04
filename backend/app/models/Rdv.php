@@ -49,7 +49,7 @@
                         from rdvs r , client c 
                         WHERE r.idClient = c.id
                         and date_rdv= :date_rdv
-                        LIMIT 5');
+                        Order By creneau_rdv ASC');
           // Bind value
           $this->db->bind(':date_rdv', $date);
           $rows = $this->db->resultSet();
