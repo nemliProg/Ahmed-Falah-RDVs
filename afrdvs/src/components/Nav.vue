@@ -4,11 +4,11 @@
       <router-link to="/">AFRdvs</router-link>
     </div>
     <ul>
-      <li><router-link to="/dashboard">Dashboard</router-link></li>
-      <li><router-link to="/rdvs">rdvs</router-link></li>
+      <li v-if="currentState?.role === 'admin'"><router-link to="/dashboard">Dashboard</router-link></li>
+      <li v-if="currentState?.role !== 'admin' && currentState?.role"><router-link to="/rdvs">rdvs</router-link></li>
       <li><router-link to="/about">About</router-link></li>
-      <li><router-link to="/login">Login</router-link></li>
-      <li><router-link to="/login" @click="logout">Logout</router-link></li>
+      <li v-if="!currentState?.role"><router-link to="/login">Login</router-link></li>
+      <li v-if="currentState?.role"><router-link to="/login" @click="logout">Logout</router-link></li>
     </ul>
   </nav>
 </template>
@@ -16,9 +16,15 @@
 <script>
 export default {
   name: "Nav",
+  props: ["setCurrentState", "currentState"],
   methods : {
     logout(){
       localStorage.clear();
+      this.setCurrentState(undefined)
+    }
+  },
+  data() {
+    return {
     }
   }
 };
