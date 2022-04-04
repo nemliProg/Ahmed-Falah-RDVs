@@ -1,32 +1,29 @@
 <template>
   <div class="bigContainer">
   <h3 ref="rdvs"></h3>
+ 
   <div class="container">
     <div class="agendaNav">
-    <button @click="decrementTheOneDay()"> &#60;&#60; </button>
-    <h4 ref="month"></h4>
-    <button @click="incrementTheOneDay()"> &#62;&#62; </button>
+      <button @click="decrementTheOneDay()">&#60;&#60;</button>
+      <h4 ref="month"></h4>
+      <button @click="incrementTheOneDay()">&#62;&#62;</button>
     </div>
     <div id="weekdays">
-     <div>Su</div>
-     <div>Mo</div>
-     <div>Tu</div>
-     <div>We</div>
-     <div>Th</div>
-     <div>Fr</div>
-     <div>Sa</div>
-    </div>
-    <div ref="calendar" id="calendar">         
+      <div>Su</div>
+      <div>Mo</div>
+      <div>Tu</div>
+      <div>We</div>
+      <div>Th</div>
+      <div>Fr</div>
+      <div>Sa</div>
     </div>
     
-     
-  
-  </div>
-  <div>
+    <div ref="calendar" id="calendar"></div>
+  </div>  
+    <div>
     <Child :name ="rdvs" :plus="plus"/>
   </div>
   </div>
-  
 </template>
 
 
@@ -112,19 +109,33 @@ export default {
     console.log(this.oneMonth);
     this.oneMonth = this.oneMonth - 1;
     this.displayCalenderDays();
-  }
-  //  bringRdvs(date){
-  //    let url = "http://localhost/Ahmed-Falah-RDVs/rdvsapi/getRdvByDate/";
-  //    const response = fetch(url + date);
-  //    response.then(res => res.json()).then(rdvs => console.log(rdvs));
-  // },
+  },
+  redirect() {
+    let bool = window.localStorage.getItem("ref");
+    if (bool === null) {
+      this.$router.push({ name: "login" });
+    } else if (bool !== "admin") {
+      this.$router.push({ name: "rdvs" });
+    }else if (bool === "admin") {
+      this.$router.push({ name: "dashboard" });
+    }
+  },
+    //  bringRdvs(date){
+    //    let url = "http://localhost/Ahmed-Falah-RDVs/rdvsapi/getRdvByDate/";
+    //    const response = fetch(url + date);
+    //    response.then(res => res.json()).then(rdvs => console.log(rdvs));
+    // },
+    debugging(data) {
+      console.log(data);
+    },
   
 
   },
-  mounted(){
-      this.displayCalenderDays();
-  }
-}
+  mounted() {
+    this.displayCalenderDays();
+    this.redirect();
+  },
+};
 </script>
 
 <style lang="scss">
@@ -138,26 +149,24 @@ export default {
   font-family: $poppins;
   font-weight: 200;
 }
-button{
+button {
   background-color: $primary-color;
   color: white;
   border: none;
   padding: 5px;
   border-radius: 3px;
-  
 }
-.agendaNav{
+.agendaNav {
   display: flex;
   gap: 10px;
   justify-content: center;
   align-items: center;
-  
 }
-.agendaNav > h4{
+.agendaNav > h4 {
   font-family: $tenor !important;
- font-weight: 600 !important;
+  font-weight: 600 !important;
 }
-#weekdays{
+#weekdays {
   width: 100%;
   display: flex;
   color: $primary-color;
@@ -172,35 +181,35 @@ button{
 #weekdays div {
   width: 60px;
   text-align: center;
-  border-radius:5px;
+  border-radius: 5px;
 }
-#calendar{
+#calendar {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 2px;
 }
-.day{
+.day {
   width: 60px;
   height: 60px;
   cursor: pointer;
   text-align: center;
-  border-radius:5px;
+  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.3em;
-  border:.5px solid $secondary-color;
+  border: 0.5px solid $secondary-color;
 }
-.day:hover{
+.day:hover {
   background-color: $primary-color;
   color: white;
 }
-.emptyDay{
+.emptyDay {
   width: 60px;
   height: 60px;
   text-align: center;
-  border-radius:5px;
+  border-radius: 5px;
   cursor: not-allowed !important;
 }
 .pastDays{
@@ -209,5 +218,4 @@ button{
 h4{
 text-align: center;
 }
-
 </style>

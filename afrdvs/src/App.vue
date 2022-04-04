@@ -1,7 +1,7 @@
 <template>
 
-  <Nav />
-  <router-view :id="id"></router-view>
+  <Nav :setCurrentState="setCurrentState" :currentState="state" />
+  <router-view :setCurrentState="setCurrentState" />
   <Footer />
 </template>
 
@@ -18,7 +18,13 @@
     data() {
       return {
         id : 0,
-        name : ""
+        name : "",
+        state:undefined
+      }
+    },
+    methods : {
+      setCurrentState(data){
+        this.state = data;
       }
     }
   }

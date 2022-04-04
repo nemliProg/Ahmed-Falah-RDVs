@@ -3,7 +3,7 @@
     <h1>Login</h1>
     <form @submit.prevent="login">
       <input type="text" placeholder="Write Your Reference" v-model="reference">
-      <button>Submit</button>
+      <button @click="addd">Submit</button>
     </form>
   </div>
 </template>
@@ -11,12 +11,19 @@
 <script>
 export default {
   name : "Login",
+  props : {
+    reload_nav : Number,
+    setCurrentState: Function
+  },
   data() {
     return {
       reference : ""
     }
   },
   methods : {
+    addd(){
+      
+    },
     login() {
       if(this.reference != ""){
         fetch("http://localhost/Ahmed-Falah-RDVs/usersApi/login",{
@@ -27,9 +34,19 @@ export default {
         })
         .then( response => response.json() )
         .then( json => {
-          localStorage.setItem("ref",json.ref);
-          localStorage.setItem("id",json.id);
-          this.$router.push({name: 'dashboard'})
+          console.log(json.ref[0])
+          if (json.ref[0] !== '$') {
+            this.setCurrentState({role: "admin", id: json.id});
+            localStorage.setItem("ref","admin");
+            localStorage.setItem("id",json.id);
+            this.$router.push({name: 'dashboard'});
+          } else {
+            this.setCurrentState({role: "user", id: json.id});
+            localStorage.setItem("ref",json.ref);
+            localStorage.setItem("id",json.id);
+            this.$router.push({name: 'rdvs'});
+          }
+          
         });
       }
     }
