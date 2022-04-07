@@ -1,14 +1,14 @@
 <template>
+  <div>
   <div class="bigContainer">
-  <h3 ref="rdvs"></h3>
- 
+  <h3 ref="rdvs"></h3>   
   <div class="container">
     <div class="agendaNav">
       <button @click="decrementTheOneDay()">&#60;&#60;</button>
       <h4 ref="month"></h4>
       <button @click="incrementTheOneDay()">&#62;&#62;</button>
     </div>
-    <div id="weekdays">
+    <div id="weekdays" >
       <div>Su</div>
       <div>Mo</div>
       <div>Tu</div>
@@ -18,37 +18,53 @@
       <div>Sa</div>
     </div>
     
-    <div ref="calendar" id="calendar"></div>
+    <div ref="calendar" id="calendar">
+      
+    </div>
+    
   </div>  
     <div>
-    <Child :name ="rdvs" :plus="plus"/>
+    <Child :name ="rdvs" :plus="plus" :count = "count" :setCount = "setCount" :todayDate = "todayDate"
+     :editCondition = "editCondition" :sujetToUpdate = "sujetToUpdate"/>
   </div>
   </div>
+  </div>
+  
 </template>
-
-
 
 <script>
 import { h } from 'vue';
 import Child from './Child.vue';
 export default {
   name : "rdvs",
+  props : {
+     editCondition : Boolean,
+     sujetToUpdate : String
+  },
   data(){
     return {
        oneMonth : 0,
        rdvs : [],
-       plus : false
+       plus : false,
+       count : 0,
+       todayDate : undefined,
+       pageContent : true,
     }
   },
   components : {
-      Child
-  },
+    Child
+},
   methods : {
+     setCount(n){
+      this.count = n
+     },
      displayCalenderDays(){
+       console.log("I'm in");
   const date = new Date();
   //Date class => By default gives cuurent date but you could change that if you define a date in the constructor
   const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   //Current Date infos => S
+  console.log(date);
   const day =  date.getDate();
   const month = date.getMonth();
   const year = date.getFullYear();
@@ -89,10 +105,21 @@ export default {
      let url = "http://localhost/Ahmed-Falah-RDVs/rdvsapi/getRdvByDate/";
      const response = fetch(url + daySquare.getAttribute('data-date'));
      response.then(res => res.json()).then(data => data.forEach(element => {
-       this.rdvs.push(element)
-       
+       this.rdvs.push(element);
+       console.log(element);
      })
-    
+     ).then( () => {
+      if(this.rdvs.length > 0){
+       console.log("count is 2");
+       this.count = 2
+       this.todayDate = daySquare.getAttribute('data-date');
+
+    }else{
+      console.log("count is 1");
+      this.count = 1
+      this.todayDate = daySquare.getAttribute('data-date');
+    }
+    } 
      );
     this.plus = true 
   });
@@ -128,7 +155,14 @@ export default {
     debugging(data) {
       console.log(data);
     },
-  
+   changePageContent(){
+     if(this.pageContent == true){
+       this.pageContent = false;
+     }else {
+       this.pageContent = true;
+       this.displayCalenderDays();
+     }
+   }
 
   },
   mounted() {
@@ -217,5 +251,15 @@ button {
 }
 h4{
 text-align: center;
+}
+.rdvsButton{
+  margin-top: 10px;
+  float: right;
+  margin-right: 20px;
+  padding: 8px 18px;
+}
+.rdvsButton:hover{
+  cursor: pointer;
+  background-color: $secondary-color;
 }
 </style>

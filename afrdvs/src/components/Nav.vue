@@ -6,6 +6,7 @@
     <ul>
       <li v-if="currentState?.role === 'admin'"><router-link to="/dashboard">Dashboard</router-link></li>
       <li v-if="currentState?.role !== 'admin' && currentState?.role"><router-link to="/rdvs">rdvs</router-link></li>
+      <li v-if="currentState?.role !== 'admin' && currentState?.role"><router-link to="/allRdvs">All Rdvs</router-link></li>
       <li><router-link to="/about">About</router-link></li>
       <li v-if="!currentState?.role"><router-link to="/login">Login</router-link></li>
       <li v-if="currentState?.role"><router-link to="/login" @click="logout">Logout</router-link></li>
