@@ -8,8 +8,10 @@
 
     // Regsiter user
     public function register($data){
-      $this->db->query('INSERT INTO client (nom,prenom,age,prefession,ref,idAdmin) VALUES(:nom,:prenom,:age,:prefession,:ref,:idAdmin)');
+      $this->db->query('INSERT INTO client (id,nom,prenom,age,prefession,ref,idAdmin) VALUES(:id,:nom,:prenom,:age,:prefession,:ref,:idAdmin)');
       // Bind values
+
+      $this->db->bind(':id', $data['id']);
       $this->db->bind(':nom', $data['nom']);
       $this->db->bind(':prenom', $data['prenom']);
       $this->db->bind(':age', $data['age']);
@@ -50,8 +52,19 @@
       $this->db->query('SELECT id FROM client order by id desc limit 1');
       // Bind value
       $row = $this->db->single();
-      return $row->id;
+      if (is_null($row->id)) {
+        return 0;
+      } else {
+        return $row->id;
+      }
     }
+    public function countUsers(){
+      $this->db->query('SELECT id FROM client');
+      $this->db->execute();
+      $count = $this->db->rowCount();
+      return $count;
+    }
+
  
   //Update client 
   public function updateUser($data){

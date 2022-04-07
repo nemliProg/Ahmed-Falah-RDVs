@@ -26,25 +26,33 @@ class usersapi extends Controller
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $randomString = '';
     for ($i = 0; $i < 20; $i++) {
-        $index = rand(0, strlen($characters) - 1);
-        $randomString .= $characters[$index];
+      $index = rand(0, strlen($characters) - 1);
+      $randomString .= $characters[$index];
     }
-    
     header('Acces-Control-Allow-Methods: POST');
     header('Acces-Control-Allow-Headers: Acces-Control-Allow-Methods,Content-Type,Acces-Control-Allow-Headers,Authorization,X-Requested-With');
     //Create the reference
     $postedData = json_decode(file_get_contents("php://input"));
-    $counter = $this->userModel->getLastUserId();
+    $id = 0;
+    $counter = $this->userModel->countUsers();
+    if ($counter === 0) {
+      $id = 1;
+    }else{
+      $lastId = $this->userModel->getLastUserId();
+      $id = $lastId + 1;
+    }
 
-    $ref = "YJ_". $randomString .  "_DN_" . $counter+1;
-    $hashed_ref = password_hash($ref,PASSWORD_DEFAULT);
+
+    $ref = "YJ_" . $randomString .  "_DN_" . $id;
+    $hashed_ref = password_hash($ref, PASSWORD_DEFAULT);
     $data = [
+      'id' => $id,
       'nom' => $postedData->nom,
       'prenom' => $postedData->prenom,
       'age' => $postedData->age,
       'prefession' => $postedData->prefession,
       'ref' => $hashed_ref,
-      'idAdmin'=> 1,
+      'idAdmin' => 1,
       'nom_err' => '',
       'prenom_err' => '',
       'age_err' => '',
@@ -89,7 +97,7 @@ class usersapi extends Controller
   }
   public function updateUser()
   {
-    header('Acces-Control-Allow-Methods: PUT');
+    header('Acces-Control-Allow-Methods: POST');
     header('Acces-Control-Allow-Headers: Acces-Control-Allow-Methods,Content-Type,Acces-Control-Allow-Headers,Authorization,X-Requested-With');
     $postedData = json_decode(file_get_contents("php://input"));
     $data = [
@@ -146,18 +154,25 @@ class usersapi extends Controller
     }
   }
 
-  public function delete($id)
+  public function delete()
   {
-    if ($this->userModel->deleteUser($id)) {
-      $arr = array(
-        'message' => 'User Deleted'
-      );
-      echo json_encode($arr);
-    } else {
-      $arr = array(
-        'message' => 'Something went wrong'
-      );
-      echo json_encode($arr);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $postedData = json_decode(file_get_contents("php://input"));
+      $data = [
+        'id' => $postedData->id
+      ];
+      if ($this->userModel->deleteUser($data['id'])) {
+        $arr = array(
+          'message' => 'User Deleted'
+        );
+        echo json_encode($arr);
+      } else {
+        $arr = array(
+          'message' => 'Something went wrong'
+        );
+        echo json_encode($arr);
+      }
     }
   }
   public function login()

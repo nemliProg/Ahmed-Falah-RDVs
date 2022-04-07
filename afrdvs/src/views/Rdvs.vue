@@ -135,11 +135,6 @@ export default {
         this.$router.push({ name: "dashboard" });
       }
     },
-    //  bringRdvs(date){
-    //    let url = "http://localhost/Ahmed-Falah-RDVs/rdvsapi/getRdvByDate/";
-    //    const response = fetch(url + date);
-    //    response.then(res => res.json()).then(rdvs => console.log(rdvs));
-    // },
     debugging(data) {
       console.log(data);
     },

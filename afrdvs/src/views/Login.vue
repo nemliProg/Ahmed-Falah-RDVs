@@ -21,9 +21,6 @@ export default {
     }
   },
   methods : {
-    addd(){
-      
-    },
     login() {
       if(this.reference != ""){
         fetch("http://localhost/Ahmed-Falah-RDVs/usersApi/login",{
@@ -34,7 +31,6 @@ export default {
         })
         .then( response => response.json() )
         .then( json => {
-          console.log(json.ref[0])
           if (json.ref[0] !== '$') {
             this.setCurrentState({role: "admin", id: json.id});
             localStorage.setItem("ref","admin");
@@ -47,7 +43,7 @@ export default {
             this.$router.push({name: 'rdvs'});
           }
           
-        });
+        }).catch(err => console.log(err));
       }
     }
   }
@@ -70,9 +66,9 @@ export default {
       gap: 10px;
       font-family: inherit;
       input[type="text"]{
-        width: 50%;
+        width: 400px;
         margin: auto;
-        font-size: 1.3rem;
+        font-size: 1rem;
         padding: 3px 10px;
         border-radius: 10px;
         outline: none;
@@ -80,13 +76,17 @@ export default {
         font-family: inherit;
       }
       button{
-        width: 30%;
+        width: 100px;
         margin: auto;
-        font-size: 1.3rem;
-        border-radius: 10px;
+        height: min-content;
+        font-size: 1.1rem;
+        border-radius: 5px;
         border: none;
-        padding: 10px;
+        padding: 5px 10px;
         font-family: inherit;
+        background-color: $primary-color;
+        color: white;
+        cursor: pointer;
       }
     }
   }
