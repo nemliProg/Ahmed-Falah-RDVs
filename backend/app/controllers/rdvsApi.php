@@ -2,7 +2,6 @@
   class rdvsapi extends Controller {
     public function __construct(){
       $this->rdvModel = $this->model('Rdv');
-
       header('Access-Control-Allow-Origin: *');
       header('Content-Type: application/json'); 
     }
@@ -103,7 +102,6 @@
       if (empty($data['idAdmin'])) {
         $data['idAdmin_err'] = 'x';
       }
-      
 
       // Make sure no errors
       if (empty($data['sujet_rdv_err']) && empty($data['date_rdv_err']) && empty($data['creneau_rdv_err']) && empty($data['idClient_err']) && empty($data['idAdmin_err'])) {
@@ -121,7 +119,7 @@
         }
       }
   }
-    
+
   public function delete($id){
     header('Acces-Control-Allow-Methods: DELETE');
     header('Acces-Control-Allow-Headers: Acces-Control-Allow-Methods,Content-Type,Acces-Control-Allow-Headers,Authorization,X-Requested-With');
@@ -137,4 +135,4 @@
         echo json_encode($arr);
     }
   }
-  }
+}
