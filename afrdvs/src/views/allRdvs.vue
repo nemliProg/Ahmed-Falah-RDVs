@@ -13,14 +13,13 @@
       <tbody>
         <tr v-for="rdv in rdvs" :key="rdv.id" id="allRdvs">
            <td>{{rdv.date_rdv }}</td>
-           <td>{{rdv.creneau_rdv }}</td>
+           <td>{{ arrayOfCrs[rdv.creneau_rdv] }}</td>
            <td>{{rdv.sujet_rdv }}</td>
            <button @click="deleteRdv(rdv.id)">Delete</button>
            <button @click="updateRdv(rdv.id,rdv.sujet_rdv)">Edit</button>
         </tr>
       </tbody>
     </table>
-   
   </div>
   <div v-if="editCondition">
    <Rdvs :editCondition = "editCondition" :sujetToUpdate = "sujetToUpdate"/>
@@ -37,7 +36,11 @@ import Rdvs from "./Rdvs.vue";
             editCondition: false,
             sujetToUpdate : undefined,
             arrayOfCrs : {
-              
+               1 : "10:00 => 10:30",
+               2 : "11:00 => 11:30",
+               3 : "14:00 => 14:30",
+               4 : "15:00 => 15:30",
+               5 : "16:00 => 16:30" 
             }
                
 
@@ -56,7 +59,7 @@ import Rdvs from "./Rdvs.vue";
             response.then(res => res.json()).then(data => console.log(data)).then(this.getRdvs());
         },
         updateRdv(id,value){
-            this.deleteRdv(id);
+            this.deleteRdv(id); 
             this.editCondition = !this.editCondition; 
             localStorage.setItem("sujet",value);
         }

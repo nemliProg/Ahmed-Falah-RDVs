@@ -27,7 +27,7 @@
             </button>
             <button>
               <img
-                @click="deleteClient(client.id, $event)"
+                @click="deleteClient(client.id,$event)"
                 src="../assets/remove.png"
                 alt="Remove"
               />
@@ -89,16 +89,17 @@ export default {
 
       this.toggle = !this.toggle;
     },
-    deleteClient(id, event) {
+    deleteClient(id,event) {
       fetch(`http://localhost/Ahmed-Falah-RDVs/usersApi/delete`, {
         method: "POST",
         body: JSON.stringify({
-          id: id,
+          id : id,
         }),
       })
         .then((response) => response.json())
-        .then((res) => console.log(res.message));
-      event.target.parentElement.parentElement.parentElement.remove();
+        .then((res) => console.log(res.message))
+        .catch(er => console.log(er));
+        event.target.parentElement.parentElement.parentElement.remove();
     },
     allClients() {
       fetch("http://localhost/Ahmed-Falah-RDVs/usersApi/allUsers", {

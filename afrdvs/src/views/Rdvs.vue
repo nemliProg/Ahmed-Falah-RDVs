@@ -90,6 +90,7 @@ export default {
       if((i - pastDays)==day && firstDayOfTheMonth.getMonth() == month && firstDayOfTheMonth.getFullYear() == year){
            daySquare.style.color = "#247BA0";
            daySquare.style.backgroundColor = "#DDD";  
+           daySquare.classList.add("emptyDay");
       }else if((i - pastDays) < day && firstDayOfTheMonth.getMonth() == month && firstDayOfTheMonth.getFullYear() == year){
        daySquare.style.backgroundColor = "#DDD";   
        daySquare.classList.add("pastDays"); 
@@ -97,6 +98,7 @@ export default {
        daySquare.style.backgroundColor = "#DDD"; 
        daySquare.classList.add("pastDays"); 
       }
+    
     }else if(i<=pastDays){
        daySquare.classList.add("emptyDay");
     }

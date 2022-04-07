@@ -36,7 +36,14 @@ import Form from "./Form.vue";
             rdvs: this.name,
             checking: false,
             creaneau : undefined,
-            client : undefined
+            client : undefined,
+            arrayOfCrs : {
+               1 : "10:00 => 10:30",
+               2 : "11:00 => 11:30",
+               3 : "14:00 => 14:30",
+               4 : "15:00 => 15:30",
+               5 : "16:00 => 16:30" 
+            }
         };
     },
     methods: {
@@ -52,20 +59,20 @@ import Form from "./Form.vue";
                     //Add client name
                     const clientName = document.createElement("P");
                     clientName.classList.add("clinetName");
-                    clientName.innerText = array[0].prenom + " " + array[0].nom;
+                    clientName.innerText = this.arrayOfCrs[array[0].creneau_rdv] + " : Taken Randez-Vous";
                     newDive.appendChild(clientName);
                     //Add sujet_rdv
-                    const sujet_rdv = document.createElement("p");
-                    sujet_rdv.innerText = array[0].sujet_rdv;
-                    sujet_rdv.classList.add("sujet_rdv");
-                    newDive.appendChild(sujet_rdv);
+                    // const sujet_rdv = document.createElement("p");
+                    // sujet_rdv.innerText = array[0].sujet_rdv;
+                    // sujet_rdv.classList.add("sujet_rdv");
+                    // newDive.appendChild(sujet_rdv);
                     newDive.classList.add("oneRdv");
                     document.querySelector(".alwaysHere").appendChild(newDive);
                     array.shift();
                 }
-                else {
+               else {
                     const newDiv = document.createElement("div");
-                    newDiv.innerText = "Empty Randez-vous";
+                    newDiv.innerText = this.arrayOfCrs[i] + " : Available Randez-Vous";
                     newDiv.classList.add("emptyRdv");
                     newDiv.addEventListener("click", () => {
                         this.creaneau = i;
@@ -77,11 +84,11 @@ import Form from "./Form.vue";
             this.setCount(0);
         },
         update2() {
-            document.querySelector(".alwaysHere").innerHTML = "";
+            document.querySelector(".alwaysHere").innerText = "";
             console.log("I'm in update 2");
             for (let i = 1; i <= 5; i++) {
                 const newDiv = document.createElement("div");
-                newDiv.innerText = "Empty Randez-vous";
+                newDiv.innerText = this.arrayOfCrs[i] + " : Available Randez-Vous";
                 newDiv.classList.add("emptyRdv");
                 newDiv.addEventListener("click", () => {
                     this.creaneau = i;
@@ -122,6 +129,9 @@ import Form from "./Form.vue";
     border: 1px solid #1282A6;
     cursor: not-allowed;
     border-radius: 5px;
+     display: flex;
+    align-items: center; 
+    background-color: #DDD;
 }
 .oneRdv:hover{
     background-color: $primary-color;
@@ -141,7 +151,7 @@ import Form from "./Form.vue";
     cursor: pointer;
     border-radius: 5px;
     display: flex;
-    justify-content: center;
+
     align-items: center;
     font-weight: 550;
 }
